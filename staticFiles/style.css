@@ -1,0 +1,221 @@
+* {
+  	box-sizing: border-box;
+  	font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+  	font-size: 16px;
+  	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+}
+body {
+  	background-color: #435165;
+}
+
+.navtop {
+	background-color: #2f3947;
+	height: 60px;
+	width: 100%;
+	border: 0;
+}
+.navtop div {
+	display: flex;
+	margin: 0 auto;
+	width: 1000px;
+	height: 100%;
+}
+.navtop div h1, .navtop div a {
+	display: inline-flex;
+	align-items: center;
+}
+.navtop div h1 {
+	flex: 1;
+	font-size: 24px;
+	padding: 0;
+	margin: 0;
+	color: #eaebed;
+	font-weight: normal;
+}
+.navtop div a {
+	padding: 0 20px;
+	text-decoration: none;
+	color: #c1c4c8;
+	font-weight: bold;
+}
+.navtop div a i {
+	padding: 2px 8px 0 0;
+}
+.navtop div a:hover {
+	color: #eaebed;
+}
+body.home {
+	background-color: #f3f4f7;
+}
+.content {
+	width: 1000px;
+	margin: 0 auto;
+}
+.content h2 {
+	margin: 0;
+	padding: 25px 0;
+	font-size: 22px;
+	border-bottom: 1px solid #e0e0e3;
+	color: #4a536e;
+}
+.content > p, .content > div {
+	box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+	margin: 25px 0;
+	padding: 25px;
+	background-color: #fff;
+}
+.content > p table td, .content > div table td {
+	padding: 16px;
+}
+.content > p table td:first-child, .content > div table td:first-child {
+	font-weight: bold;
+	color: #4a536e;
+	padding-right: 15px;
+}
+.content > div p {
+	padding: 5px;
+	margin: 0 0 10px 0;
+}
+* {
+  	box-sizing: border-box;
+  	font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+  	font-size: 16px;
+  	-webkit-font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+}
+body {
+  	background-color: #435165;
+  	margin: 0;
+}
+
+/* Styles de police */
+label {
+    font-weight: bold;
+}
+
+/* Styles de bouton */
+input[type="submit"] {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+h3 {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-size: 19px;
+  margin: 16px 0px 34px 0px;
+}
+
+#rendementForm.fromcalc {
+
+}
+
+#prixAchat {
+	border: 1px solid rgb(210, 210, 210);
+	width: 75px;
+	height: 24px;
+	color:#312f2f;
+	text-align:center;
+	padding: 0px 4px;
+	border-radius: 5px;
+}
+
+#nombreActions {
+	border: 1px solid rgb(210, 210, 210);
+	width: 75px;
+	height: 24px;
+	color:#312f2f;
+	text-align:center;
+	padding: 0px 4px;
+	border-radius: 5px;
+}
+
+#dividendes {
+	border: 1px solid rgb(210, 210, 210);
+	width: 75px;
+	height: 24px;
+	color:#312f2f;
+	text-align:center;
+	padding: 0px 4px;
+	border-radius: 5px;
+}
+
+#frais {
+	border-radius: 5px;
+	color:#312f2f;
+
+}
+
+tr > .lib {
+	text-align: right;
+	background: #e6e6e6;
+	width: 315px;
+	height: 45px;
+	border: 1px solid rgb(210, 210, 210);
+	padding: 16px
+
+}
+
+tr > .inp {
+	border: 1px solid rgb(210, 210, 210);
+	text-align:left;
+	padding: 16px
+
+}
+
+td > .inp {
+	padding: 16px
+}
+
+tr label {
+	color:#312f2f;
+}
+
+.table-responsive {
+	text-align: center;
+	overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+    margin: 0 0 1em;
+
+}
+
+.table-responsive > #rendementForm {
+	display: inline-block;
+}
+
+.result > p {
+	font-weight:500;
+}
+
+#rendementForm.calculateur.styled-table {
+	 border-collapse: collapse;
+}
+
+.bouton > label {
+	font-size:20px;
+}
+
+.bouton.header-col {
+	padding: 16px 15px 25px 16px;
+}
+
+#resultat:empty {
+	display: none;
+}
+
+
+input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+         -webkit-appearance: none;
+      }

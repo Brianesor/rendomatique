@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Rendomatique</title>
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+	<link rel="stylesheet" type="text/css" href="/staticFiles/style.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+</head>
+<body class="home">
+	<nav class="navtop">
+		<div>
+			<h1>Rendomatique</h1>
+			<a href="/calcule_action_totale">Calcule par prix total</a>
+			<a href="/calcule_action">Calcule par prix de l'action</a>
+		</div>
+	</nav>
+		<div class="content">
+			<h2>Estimation de rendement sur action à dividende</h2>
+			<div class="raw" id="calculateur">
+    		<form id="rendementForm" class="formcalc">
+    			<div class="table-responsive">
+	    		<table class="calculateur styled-table" cellspacing="0" id="rendementForm">
+				   <tbody>
+				      <tr>
+				         <td colspan="2" class="bouton header-col"><label for="initial">Calculateur de rendement par le prix totale :</label></td>
+				      </tr>
+				      <tr>
+				         <td class="lib"><label for="prixTotal">Prix totale d'achat :</label></td>
+				         <td class="inp"><input name="prixTotal" type="number" id="prixAchat" maxlength="15" step="0.01" required> € </td>
+				      </tr>
+				      <tr>
+				        <td class="lib"><label for="nombreActions">Nombre d'actions achetées :</label></td>
+				        <td class="inp"><input type="number" name="nombreActions" id="nombreActions" maxlength="15" required></td>
+				      </tr>
+				      <tr>
+				         <td class="lib"><label for="dividendes">Montant des dividendes par action :</label></td>
+				         <td class="inp"><input type="number" step="0.01" name="dividendes" id="dividendes" maxlength="3" required> € </td>
+				      </tr>
+				      <tr>
+				         <td class="lib"><label for="taux" maxlength="15">Frais + Taxe :</label></td>
+				         <td class="inp">
+				         	<select name="frais" id="frais">
+	            				<option value="3">Euronext Bruxelles : 3 EUR</option>
+	            				<option value="6">Euronext Paris : 6 EUR</option>
+	            				<option value="8">Euronext Amsterdam : 6 EUR</option>
+	            				<option value="15">AMEX, Nasdaq, NYSE : 15 EUR</option>
+	        				</select><br>
+				         </td>
+				      </tr>
+				      <tr>
+				         <td colspan="2"><input type="submit" name="Calculer le Rendement" value="Calculer le Rendement">
+				         </td>
+				      </tr>
+				   </tbody>
+				</table>
+				</div>
+			</form>
+			</div>
+    	<div class="raw" id="resultat"></div>
+    		<script src="/staticFiles/fetch_rendment_totale.js"></script>
+    	</div>
+</body>
+</html>
