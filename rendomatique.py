@@ -115,75 +115,81 @@ def calcule_total():
 @app.route('/calcule_rendement', methods=['GET', 'POST'])
 def reception_donner_action():
     if request.method == 'POST':
-        # Récupérer les données du formulaire
-        prix_achat = float(request.form['prixAchat'])
-        nbr_action = int(request.form['nombreActions'])
-        dividende = float(request.form['dividendes'])
-        frais = int(request.form['frais'])
+        try:  
+            # Essayez de convertir les données en types souhaités
+            prix_achat = float(request.form['prixAchat'])
+            nbr_action = int(request.form['nombreActions'])
+            dividende = float(request.form['dividendes'])
+            frais = int(request.form['frais'])
 
-        frais_reel = calcule_frais_reel(frais)
+            frais_reel = calcule_frais_reel(frais)
 
-        prix_total = calcule_prix(prix_achat, nbr_action, frais_reel)
+            prix_total = calcule_prix(prix_achat, nbr_action, frais_reel)
 
-        pru = calcule_pru(prix_total, nbr_action)
+            pru = calcule_pru(prix_total, nbr_action)
 
-        dividende_total = calcule_dividende_total(dividende, nbr_action)
+            dividende_total = calcule_dividende_total(dividende, nbr_action)
 
-        rendement_brut = calcule_rendement_brut(dividende_total, prix_total)
+            rendement_brut = calcule_rendement_brut(dividende_total, prix_total)
 
-        taxe = calcule_taxe(frais, prix_total, dividende_total, rendement_brut)
+            taxe = calcule_taxe(frais, prix_total, dividende_total, rendement_brut)
 
-        resultat = '<div class="result">'
-        resultat += f"<p><p>Prix de l'action :  {prix_achat:.2f}€</p>\n"
-        resultat += f"<p>Prix total : {prix_total:.2f}€</p>\n"
-        resultat += f"<p>PRU (+ frais) : {pru:.2f}€</p>"
-        resultat += f"<p>Dividende avant taxe : {dividende_total:.2f}€</p>\n"
-        resultat += f"<p>Rendement avant taxe : {rendement_brut:.2f}%</p>\n"
-        resultat += f"<p>Dividende après taxe : {taxe[0]:.2f}€</p>\n"
-        resultat += f"<p>Rendement après taxe : {taxe[1]:.2f}%</p>\n"
-        resultat += f"<p>Remboursement du précompte mobilier : {taxe[2]:.2f}€</p>\n"
-        resultat += f"<p>Rendement avec le remboursement du précompte mobilier : {taxe[3]:.2f}%</p>\n"
-        resultat += "</div>"
-        return resultat
+            resultat = '<div class="result">'
+            resultat += f"<p><p>Prix de l'action :  {prix_achat:.2f}€</p>\n"
+            resultat += f"<p>Prix total : {prix_total:.2f}€</p>\n"
+            resultat += f"<p>PRU (+ frais) : {pru:.2f}€</p>"
+            resultat += f"<p>Dividende avant taxe : {dividende_total:.2f}€</p>\n"
+            resultat += f"<p>Rendement avant taxe : {rendement_brut:.2f}%</p>\n"
+            resultat += f"<p>Dividende après taxe : {taxe[0]:.2f}€</p>\n"
+            resultat += f"<p>Rendement après taxe : {taxe[1]:.2f}%</p>\n"
+            resultat += f"<p>Remboursement du précompte mobilier : {taxe[2]:.2f}€</p>\n"
+            resultat += f"<p>Rendement avec le remboursement du précompte mobilier : {taxe[3]:.2f}%</p>\n"
+            resultat += "</div>"
+            return resultat
+        except (ValueError, KeyError):
+            # En cas d'erreur de conversion de type ou de clé manquante
+            return "Erreur : Données invalides. Assurez-vous de fournir des valeurs numériques valides dans le formulaire."
     return render_template("calcule_action.html")
 
 @app.route('/calcule_rendement_totale', methods=['GET', 'POST'])
 def reception_donner_totale():
     if request.method == 'POST':
-        # Récupérer les données du formulaire
-        prix_total = float(request.form['prixTotal'])
-        nbr_action = int(request.form['nombreActions'])
-        dividende = float(request.form['dividendes'])
-        frais = int(request.form['frais'])
+        try:
+            # Récupérer les données du formulaire
+            prix_total = float(request.form['prixTotal'])
+            nbr_action = int(request.form['nombreActions'])
+            dividende = float(request.form['dividendes'])
+            frais = int(request.form['frais'])
 
-        frais_reel = calcule_frais_reel(frais)
+            frais_reel = calcule_frais_reel(frais)
 
-        prix_achat = calcule_prix_achat(prix_total, frais_reel, nbr_action)
+            prix_achat = calcule_prix_achat(prix_total, frais_reel, nbr_action)
 
-        #prix_total = calcule_prix(prix_achat, nbr_action, frais_reel)
+            pru = calcule_pru(prix_total, nbr_action)
 
-        pru = calcule_pru(prix_total, nbr_action)
+            dividende_total = calcule_dividende_total(dividende, nbr_action)
 
-        dividende_total = calcule_dividende_total(dividende, nbr_action)
+            rendement_brut = calcule_rendement_brut(dividende_total, prix_total)
 
-        rendement_brut = calcule_rendement_brut(dividende_total, prix_total)
+            taxe = calcule_taxe(frais, prix_total, dividende_total, rendement_brut)
 
-        taxe = calcule_taxe(frais, prix_total, dividende_total, rendement_brut)
+            resultat = '<div class="result">'
+            resultat += f"<p>Prix de l'action (estimation):  {prix_achat:.2f}€</p>\n"
+            resultat += f"<p>Prix total : {prix_total:.2f}€</p>\n"
+            resultat += f"<p>PRU (+ frais) : {pru:.2f}€</p>"
+            resultat += f"<p>Dividende avant taxe : {dividende_total:.2f}€</p>\n"
+            resultat += f"<p>Rendement avant taxe : {rendement_brut:.2f}%</p>\n"
+            resultat += f"<p>Dividende après taxe : {taxe[0]:.2f}€</p>\n"
+            resultat += f"<p>Rendement après taxe : {taxe[1]:.2f}%</p>\n"
+            resultat += f"<p>Remboursement du précompte mobilier : {taxe[2]:.2f}€</p>\n"
+            resultat += f"<p>Rendement avec le remboursement du précompte mobilier : {taxe[3]:.2f}%</p>\n"
+            resultat += "</div>"
+            return resultat
 
-        resultat = '<div class="result">'
-        resultat += f"<p>Prix de l'action :  {prix_achat:.2f}€</p>\n"
-        resultat += f"<p>Prix total : {prix_total:.2f}€</p>\n"
-        resultat += f"<p>PRU (+ frais) : {pru:.2f}€</p>"
-        resultat += f"<p>Dividende avant taxe : {dividende_total:.2f}€</p>\n"
-        resultat += f"<p>Rendement avant taxe : {rendement_brut:.2f}%</p>\n"
-        resultat += f"<p>Dividende après taxe : {taxe[0]:.2f}€</p>\n"
-        resultat += f"<p>Rendement après taxe : {taxe[1]:.2f}%</p>\n"
-        resultat += f"<p>Remboursement du précompte mobilier : {taxe[2]:.2f}€</p>\n"
-        resultat += f"<p>Rendement avec le remboursement du précompte mobilier : {taxe[3]:.2f}%</p>\n"
-        resultat += "</div>"
-        return resultat
+        except (ValueError, KeyError):
+            # En cas d'erreur de conversion de type ou de clé manquante
+            return "Erreur : Données invalides. Assurez-vous de fournir des valeurs numériques valides dans le formulaire."
     return render_template("calcule_action_totale.html")  
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
-
