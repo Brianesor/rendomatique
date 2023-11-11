@@ -69,7 +69,7 @@ body.home {
 	padding: 16px;
 }
 .content > p table td:first-child, .content > div table td:first-child {
-	font-weight: bold;
+	*font-weight: bold;
 	color: #4a536e;
 	padding-right: 15px;
 }
@@ -156,6 +156,42 @@ h3 {
 
 }
 
+#prixAction {
+	border: 1px solid rgb(210, 210, 210);
+	width: 75px;
+	height: 24px;
+	color:#312f2f;
+	text-align:center;
+	padding: 0px 4px;
+	border-radius: 5px;
+}
+
+#date {
+	border: 1px solid rgb(210, 210, 210);
+	width: 125px;
+	height: 24px;
+	color:#312f2f;
+	text-align:center;
+	padding: 0px 4px;
+	border-radius: 5px;
+}
+
+#tdTopLeft {
+  border-radius: 20px 0px 0px 0px;
+}
+
+#tdDownLeft {
+  border-radius: 0px 0px 0px 20px;
+}
+
+#tdTopRight {
+  border-radius: 0px 20px 0px 0px;
+}
+
+#tdDownRight {
+  border-radius: 0px 0px 20px 0px;
+}
+
 tr > .lib {
 	text-align: right;
 	background: #e6e6e6;
@@ -194,12 +230,37 @@ tr label {
 	display: inline-block;
 }
 
+.result {
+	text-align: center;
+}
+
+.result > #rendementForm{
+	display: inline-block;
+}
+
+.result > #rendementForm tr > .inp {
+  text-align: center;
+  width: 173px;
+}
+
+table #rendementForm.calculateur.styled-table {
+	 border-collapse: collapse;
+}
+
+.result > #rendementForm tr > .lib {
+  font-weight: 700;
+}
+
 .result > p {
 	font-weight:500;
 }
 
-#rendementForm.calculateur.styled-table {
-	 border-collapse: collapse;
+.tg {
+	width: 950px;
+}
+
+tbody .tg-0lax {
+  text-align: center;
 }
 
 .bouton > label {
