@@ -39,13 +39,22 @@
 				         <td class="inp"><input type="number" step="0.01" name="dividendes" id="dividendes" step="0.001" required> € </td>
 				      </tr>
 				      <tr>
+				         <td class="lib"><label for="courtier">Courtier :</label></td>
+				         <td class="inp">
+				         	<select name="courtier" id="courtier">
+	            				<option value="1">Belfius</option>
+	            				<option value="2">Degiro</option>
+	        				</select><br>
+				         </td>
+				      </tr>
+				      <tr>
 				         <td class="lib" id="tdDownLeft"><label for="taux">Frais + Taxe :</label></td>
 				         <td class="inp" id="tdDownRight">
 				         	<select name="frais" id="frais">
-	            				<option value="3">Euronext Bruxelles : 3 EUR</option>
-	            				<option value="6">Euronext Paris : 6 EUR</option>
-	            				<option value="8">Euronext Amsterdam : 6 EUR</option>
-	            				<option value="15">AMEX, Nasdaq, NYSE : 15 EUR</option>
+	            				<option value="1">Euronext Bruxelles : 3 EUR</option>
+	            				<option value="2">Euronext Paris : 6 EUR</option>
+	            				<option value="3">Euronext Amsterdam : 6 EUR</option>
+	            				<option value="4">AMEX, Nasdaq, NYSE : 15 EUR</option>
 	        				</select><br>
 				         </td>
 				      </tr>

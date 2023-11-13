@@ -156,6 +156,13 @@ h3 {
 
 }
 
+#courtier {
+	border-radius: 5px;
+	color:#312f2f;
+	width: 80px;
+
+}
+
 #prixAction {
 	border: 1px solid rgb(210, 210, 210);
 	width: 75px;
@@ -239,16 +246,16 @@ tr label {
 }
 
 .result > #rendementForm tr > .inp {
-  text-align: center;
-  width: 173px;
+	text-align: center;
+	width: 173px;
 }
 
 table #rendementForm.calculateur.styled-table {
-	 border-collapse: collapse;
+	border-collapse: collapse;
 }
 
 .result > #rendementForm tr > .lib {
-  font-weight: 700;
+	font-weight: 700;
 }
 
 .result > p {
@@ -260,7 +267,11 @@ table #rendementForm.calculateur.styled-table {
 }
 
 tbody .tg-0lax {
-  text-align: center;
+	text-align: center;
+}
+
+#topTable {
+	border-top: 1px solid #e0e0e3;
 }
 
 .bouton > label {

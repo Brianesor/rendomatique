@@ -55,32 +55,32 @@ def print_result(prix_achat, prix_total, pru, dividende_total, rendement_brut, t
 
 def print_result_valeur(formatted_date, prix_achat, nbr_action, benefice, pourcentage_variation, prix_total_augmenter):
     resultat = '<div class="result">'
-    resultat += '<table class="tg">\n'
-    resultat += '<thead>\n'
-    resultat += '<tr>\n'
-    resultat += '<th class="tg-0lax">DATE D\'ACHAT</th>\n'
-    resultat += '<th class="tg-0lax">DATE</th>\n'
-    resultat += '<th class="tg-0lax"></th>\n'
-    resultat += '<th class="tg-0lax">PRIX D\'ACHAT</th>\n'
-    resultat += '<th class="tg-0lax">QUANTITÉ</th>\n'
-    resultat += '<th class="tg-0lax"></th>\n'
-    resultat += '<th class="tg-0lax">GAIN TOTAL</th>\n'
-    resultat += '<th class="tg-0lax">VALEUR</th>\n'
-    resultat += '</tr>\n'
-    resultat += '</thead>\n'
-    resultat += '<tbody>\n'
-    resultat += '<tr>\n'
-    resultat += f'<td class="tg-0lax">{formatted_date}</td>\n'
-    resultat += f'<td class="tg-0lax"></td>\n'
-    resultat += f'<td class="tg-0lax"></td>\n'
-    resultat += f'<td class="tg-0lax">{prix_achat:.2f} €</td>\n'
-    resultat += f'<td class="tg-0lax">{nbr_action}</td>\n'
-    resultat += f'<td data-color="{benefice:.2f}" class="tg-0lax" >{benefice:.2f} €</td>\n'
-    resultat += f'<td data-color="{pourcentage_variation:.2f}" class="tg-0lax">{pourcentage_variation:.2f} %</td>\n'
-    resultat += f'<td class="tg-0lax">{prix_total_augmenter:.2f} €</td>\n'
-    resultat += '</tr>\n'
-    resultat += '</tbody>\n'
-    resultat += '</table>\n'
+    resultat += '<table class="tg">'
+    resultat += '<thead>'
+    resultat += '<tr>'
+    resultat += '<th class="tg-0lax">DATE D\'ACHAT</th>'
+    resultat += '<th class="tg-0lax">DATE</th>'
+    resultat += '<th class="tg-0lax"></th>'
+    resultat += '<th class="tg-0lax">PRIX D\'ACHAT</th>'
+    resultat += '<th class="tg-0lax">QUANTITÉ</th>'
+    resultat += '<th class="tg-0lax"></th>'
+    resultat += '<th class="tg-0lax">GAIN TOTAL</th>'
+    resultat += '<th class="tg-0lax">VALEUR</th>'
+    resultat += '</tr>'
+    resultat += '</thead>'
+    resultat += '<tbody id="topTable">'
+    resultat += '<tr>'
+    resultat += f'<td class="tg-0lax">{formatted_date}</td>'
+    resultat += f'<td class="tg-0lax"></td>'
+    resultat += f'<td class="tg-0lax"></td>'
+    resultat += f'<td class="tg-0lax">{prix_achat:.2f} €</td>'
+    resultat += f'<td class="tg-0lax">{nbr_action}</td>'
+    resultat += f'<td data-color="{benefice:.2f}" class="tg-0lax" >{benefice:.2f} €</td>'
+    resultat += f'<td data-color="{pourcentage_variation:.2f}" class="tg-0lax">{pourcentage_variation:.2f} %</td>'
+    resultat += f'<td class="tg-0lax">{prix_total_augmenter:.2f} €</td>'
+    resultat += '</tr>'
+    resultat += '</tbody>'
+    resultat += '</table>'
     resultat += '<script src="/staticFiles/color_digit.js" type="text/javascript"></script>'
     resultat += "</div>"
     return resultat
@@ -91,77 +91,130 @@ def erreur_formulaire_invalide():
 def erreur_date_invalide():
     return "Erreur : Données invalides. Assurez-vous de fournir des valeurs numériques valides dans le formulaire." #format date invalide
 
-def calcule_taxe(frais, prix_total, dividende_total, rendement_brut):
-    if frais == 3 :
-        #taxe be
-        dividende_after_tax_be = dividende_total - (dividende_total * 30 / 100) 
+def calcule_taxe(frais, courtier, prix_total, dividende_total, rendement_brut):
+    if courtier == 1 :
+        if frais == 1 : #Euronext Bruxelles
+            dividende_after_tax_be = dividende_total - (dividende_total * 30 / 100) #taxe be
+            
+            dividende_net = dividende_after_tax_be
+
+            rendement_net = dividende_after_tax_be / prix_total * 100
+
+            precompte_moblilier = dividende_total * 30 / 100
+
+            rendement_net_precompte_moblilier = rendement_brut
+
+            return dividende_net, rendement_net, precompte_moblilier, rendement_net_precompte_moblilier
+            
+        elif frais == 2 :
+            dividende_after_tax_fr = dividende_total - (dividende_total * 25 / 100)     #taxe fr 
+            dividende_after_tax_be = dividende_after_tax_fr - (dividende_after_tax_fr * 30 / 100)  #taxe be
+
+            if dividende_after_tax_be / 100 * 2.42 >= 3.03 :
+                dividende_after_tax_belfius = dividende_after_tax_be - (dividende_after_tax_be / 100 * 2.42)
+            else :
+                dividende_after_tax_belfius = dividende_after_tax_be - 3.03     #taxe belfius
         
-        dividende_net = dividende_after_tax_be
+            dividende_net = dividende_after_tax_belfius
 
-        rendement_net = dividende_after_tax_be / prix_total * 100
+            rendement_net = dividende_after_tax_belfius / prix_total * 100
+            rendement_net_precompte_moblilier = rendement_net * 1.30
+            
+            precompte_moblilier = dividende_after_tax_fr * 30 / 100
 
-        precompte_moblilier = dividende_total * 30 / 100
+            return dividende_net, rendement_net, precompte_moblilier, rendement_net_precompte_moblilier
+            
+        elif frais == 3 :
+            dividende_after_tax_nl = dividende_total - (dividende_total * 15 / 100)                 #taxe nl
+            dividende_after_tax_be = dividende_after_tax_nl - (dividende_after_tax_nl * 30 / 100)   #taxe be
+            dividende_after_tax_belfius = dividende_after_tax_be - 3.03                             #taxe belfius
 
-        rendement_net_precompte_moblilier = rendement_brut
+            dividende_net = dividende_after_tax_belfius
 
-        return dividende_net, rendement_net, precompte_moblilier, rendement_net_precompte_moblilier
+            rendement_net = dividende_after_tax_belfius / prix_total * 100
+            rendement_net_precompte_moblilier = rendement_net * 1.30
+            
+            precompte_moblilier = dividende_after_tax_nl * 30 / 100
+
+            return dividende_net, rendement_net, precompte_moblilier, rendement_net_precompte_moblilier
+
+        elif frais == 4 :
+            
+            dividende_after_tax_us = dividende_total - (dividende_total * 15 / 100)                 #taxe us
+            dividende_after_tax_be = dividende_after_tax_us - (dividende_after_tax_us * 30 / 100)   #taxe be
+            dividende_after_tax_belfius = dividende_after_tax_be - 3.03                             #taxe belfius
+
+            dividende_net = dividende_after_tax_belfius
+
+            rendement_net = dividende_after_tax_belfius / prix_total * 100
+            rendement_net_precompte_moblilier = rendement_net * 1.30
+            
+            precompte_moblilier = dividende_after_tax_us * 30 / 100
+
+            return dividende_net, rendement_net, precompte_moblilier, rendement_net_precompte_moblilier
+    if courtier == 2 :
+        if frais == 1 : #Euronext Bruxelles
+            dividende_after_tax_be = dividende_total - (dividende_total * 30 / 100) #taxe be
+            
+            dividende_net = dividende_after_tax_be
+
+            rendement_net = dividende_after_tax_be / prix_total * 100
+
+            precompte_moblilier = dividende_total * 30 / 100
+
+            rendement_net_precompte_moblilier = rendement_brut
+
+            return dividende_net, rendement_net, precompte_moblilier, rendement_net_precompte_moblilier
+            
+        elif frais == 2 :
+            dividende_after_tax_fr = dividende_total - (dividende_total * 25 / 100)                 #taxe fr
+            dividende_after_tax_belfius = dividende_after_tax_be - 3.03                             #taxe belfius
         
-    elif frais == 6 :
-        
-        #taxe fr
-        dividende_after_tax_fr = dividende_total - (dividende_total * 25 / 100)
-        #taxe be
-        dividende_after_tax_be = dividende_after_tax_fr - (dividende_after_tax_fr * 30 / 100)
-        #taxe belfius
-        dividende_after_tax_belfius = dividende_after_tax_be - 3.03 
+            dividende_net = dividende_after_tax_belfius
 
-        dividende_net = dividende_after_tax_belfius
+            rendement_net = dividende_after_tax_belfius / prix_total * 100
+            rendement_net_precompte_moblilier = rendement_net * 1.30
+            
+            precompte_moblilier = dividende_after_tax_fr * 30 / 100
 
-        rendement_net = dividende_after_tax_belfius / prix_total * 100
-        rendement_net_precompte_moblilier = rendement_net * 1.30
-        
-        precompte_moblilier = dividende_after_tax_fr * 30 / 100
+            return dividende_net, rendement_net, precompte_moblilier, rendement_net_precompte_moblilier
+            
+        elif frais == 3 :
+            dividende_after_tax_nl = dividende_total - (dividende_total * 15 / 100)                 #taxe nl
+            dividende_after_tax_be = dividende_after_tax_nl - (dividende_after_tax_nl * 30 / 100)   #taxe be
+            dividende_after_tax_belfius = dividende_after_tax_be - 3.03                             #taxe belfius
 
-        return dividende_net, rendement_net, precompte_moblilier, rendement_net_precompte_moblilier
-        
-    elif frais == 8 :
-        #taxe nl
-        dividende_after_tax_nl = dividende_total - (dividende_total * 15 / 100)
-        #taxe be
-        dividende_after_tax_be = dividende_after_tax_nl - (dividende_after_tax_nl * 30 / 100)
-        #taxe belfius
-        dividende_after_tax_belfius = dividende_after_tax_be - 3.03
+            dividende_net = dividende_after_tax_belfius
 
-        dividende_net = dividende_after_tax_belfius
+            rendement_net = dividende_after_tax_belfius / prix_total * 100
+            rendement_net_precompte_moblilier = rendement_net * 1.30
+            
+            precompte_moblilier = dividende_after_tax_nl * 30 / 100
 
-        rendement_net = dividende_after_tax_belfius / prix_total * 100
-        rendement_net_precompte_moblilier = rendement_net * 1.30
-        
-        precompte_moblilier = dividende_after_tax_nl * 30 / 100
+            return dividende_net, rendement_net, precompte_moblilier, rendement_net_precompte_moblilier
 
-        return dividende_net, rendement_net, precompte_moblilier, rendement_net_precompte_moblilier
+        elif frais == 4 :
+            
+            dividende_after_tax_us = dividende_total - (dividende_total * 15 / 100)                 #taxe us
+            dividende_after_tax_be = dividende_after_tax_us - (dividende_after_tax_us * 30 / 100)   #taxe be
+            dividende_after_tax_belfius = dividende_after_tax_be - 3.03                             #taxe belfius
 
-    elif frais == 15 :
-        #taxe us
-        dividende_after_tax_us = dividende_total - (dividende_total * 15 / 100)
-        #taxe be
-        dividende_after_tax_be = dividende_after_tax_us - (dividende_after_tax_us * 30 / 100)
-        #taxe belfius
-        dividende_after_tax_belfius = dividende_after_tax_be - 3.03
+            dividende_net = dividende_after_tax_belfius
 
-        dividende_net = dividende_after_tax_belfius
+            rendement_net = dividende_after_tax_belfius / prix_total * 100
+            rendement_net_precompte_moblilier = rendement_net * 1.30
+            
+            precompte_moblilier = dividende_after_tax_us * 30 / 100
 
-        rendement_net = dividende_after_tax_belfius / prix_total * 100
-        rendement_net_precompte_moblilier = rendement_net * 1.30
-        
-        precompte_moblilier = dividende_after_tax_us * 30 / 100
-
-        return dividende_net, rendement_net, precompte_moblilier, rendement_net_precompte_moblilier
-
+            return dividende_net, rendement_net, precompte_moblilier, rendement_net_precompte_moblilier
 
 def calcule_prix(prix_achat, nbr_action, frais_reel):
     prix_total = prix_achat * nbr_action + frais_reel
     return prix_total
+
+def calcule_prix_brut(prix_achat, nbr_action): #calcule le prix totale sans les frais
+    prix_total_brut = prix_achat * nbr_action
+    return prix_total_brut
 
 def calcule_pru(prix_total, nbr_action):
     pru = prix_total / nbr_action
@@ -179,15 +232,59 @@ def calcule_prix_achat(prix_total, frais_reel, nbr_action):
     prix_total = (prix_total - frais_reel) / nbr_action
     return prix_total
 
-def calcule_frais_reel(frais):
-    if frais == 3 :
-        return 3.60
-    if frais == 6 :
-        return 6.60
-    if frais == 8 :
-        return 6.60
-    if frais == 15 :
-        return 15
+def calcule_frais_reel_prix_total_brut(frais, courtier, prix_total_brut):
+    if courtier == 1 : # courtier Belfius
+        if frais == 1 : #Euronext Bruxelles
+            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
+            frais_reel_total_brut = tob + 3 # frais belfius
+            return frais_reel_total_brut
+        if frais == 2  or frais == 3: #Euronext Paris, Euronext Amsterdam
+            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
+            frais_reel_total_brut = tob + 6 # frais belfius
+            return frais_reel_total_brut
+        if frais == 4 : #AMEX, Nasdaq, NYSE
+            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
+            frais_reel_total_brut = tob + 15 # frais belfius
+            return frais_reel_total_brut
+
+    if courtier == 2 : # courtier Degiro
+        if frais == 1 or frais == 3 or frais == 4: #Euronext Bruxelles, Euronext Amsterdam, AMEX, Nasdaq, NYSE
+            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
+            spred = prix_total_brut / 100 * 0.03 # Frais d'écart achat/vente (spread)
+            frais_reel = tob + spread + 4.90 # Frais degiro
+            return frais_reel
+        if frais == 2 : #Euronext Paris
+            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
+            spred = prix_total_brut / 100 * 0.03 # Frais d'écart achat/vente (spread)
+            frais_reel = tob + spread + 2 # Frais degiro
+            return frais_reel
+
+def calcule_frais_reel_prix_total_net(frais, courtier, prix_total_brut):
+    if courtier == 1 : # courtier Belfius
+        if frais == 1 : #Euronext Bruxelles
+            tob = prix_total_brut - (prix_total_brut / 100 * 0.35) # Taxe TOB
+            frais_reel = tob + 3 # frais belfius
+            return frais_reel
+        if frais == 2  or frais == 3: #Euronext Paris, Euronext Amsterdam
+            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
+            frais_reel = tob + 6 # frais belfius
+            return frais_reel
+        if frais == 4 : #AMEX, Nasdaq, NYSE
+            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
+            frais_reel = tob + 15 # frais belfius
+            return frais_reel
+
+    if courtier == 2 : # courtier Degiro
+        if frais == 1 or frais == 3 or frais == 4: #Euronext Bruxelles, Euronext Amsterdam, AMEX, Nasdaq, NYSE
+            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
+            spred = prix_total_brut / 100 * 0.03 # Frais d'écart achat/vente (spread)
+            frais_reel = tob + spread + 4.90 # Frais degiro
+            return frais_reel
+        if frais == 2 : #Euronext Paris
+            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
+            spred = prix_total_brut / 100 * 0.03 # Frais d'écart achat/vente (spread)
+            frais_reel = tob + spread + 2 # Frais degiro
+            return frais_reel
 
 def date_valide(date):
     if re.match(r'^\d{4}-\d{2}-\d{2}$', date): 
@@ -198,6 +295,7 @@ def date_valide(date):
 def calcule_pourcentage_variation(prix_achat, prix_action):
     pourcentage_variation = 100 * (prix_action - prix_achat) / prix_achat
     return pourcentage_variation
+
 def calcule_benefice(prix_total, pourcentage_variation):
     benefice = prix_total * pourcentage_variation / 100
     return benefice
@@ -239,9 +337,12 @@ def reception_donner_action():
             prix_achat = float(request.form['prixAchat'])
             nbr_action = int(request.form['nombreActions'])
             dividende = float(request.form['dividendes'])
+            courtier = int(request.form['courtier'])
             frais = int(request.form['frais'])
 
-            frais_reel = calcule_frais_reel(frais)
+            prix_total_brut = calcule_prix_brut(prix_achat, nbr_action)
+
+            frais_reel_ = calcule_frais_reel(frais, courtier, prix_total_brut)
 
             prix_total = calcule_prix(prix_achat, nbr_action, frais_reel)
 
@@ -251,7 +352,7 @@ def reception_donner_action():
 
             rendement_brut = calcule_rendement_brut(dividende_total, prix_total)
 
-            taxe = calcule_taxe(frais, prix_total, dividende_total, rendement_brut)
+            taxe = calcule_taxe(frais, courtier, prix_total, dividende_total, rendement_brut)
 
             resultat = print_result(prix_achat, prix_total, pru, dividende_total, rendement_brut, taxe)
             return resultat
@@ -268,6 +369,7 @@ def reception_donner_totale():
             prix_total = float(request.form['prixTotal'])
             nbr_action = int(request.form['nombreActions'])
             dividende = float(request.form['dividendes'])
+            courtier = int(request.form['courtier'])
             frais = int(request.form['frais'])
 
             frais_reel = calcule_frais_reel(frais)
@@ -280,7 +382,7 @@ def reception_donner_totale():
 
             rendement_brut = calcule_rendement_brut(dividende_total, prix_total)
 
-            taxe = calcule_taxe(frais, prix_total, dividende_total, rendement_brut)
+            taxe = calcule_taxe(frais, courtier, prix_total, dividende_total, rendement_brut)
 
             resultat = print_result(prix_achat, prix_total, pru, dividende_total, rendement_brut, taxe)
             return resultat
@@ -325,4 +427,5 @@ def reception_donner_valeur():
     return render_template("calcule_action.html") 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(debug=True)
+    #host="0.0.0.0", port=5000
