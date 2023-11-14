@@ -232,58 +232,59 @@ def calcule_prix_achat(prix_total, frais_reel, nbr_action):
     prix_total = (prix_total - frais_reel) / nbr_action
     return prix_total
 
-def calcule_frais_reel_prix_total_brut(frais, courtier, prix_total_brut):
+def calcule_frais_reel(frais, courtier, prix_total):
     if courtier == 1 : # courtier Belfius
         if frais == 1 : #Euronext Bruxelles
-            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
-            frais_reel_total_brut = tob + 3 # frais belfius
-            return frais_reel_total_brut
-        if frais == 2  or frais == 3: #Euronext Paris, Euronext Amsterdam
-            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
-            frais_reel_total_brut = tob + 6 # frais belfius
-            return frais_reel_total_brut
-        if frais == 4 : #AMEX, Nasdaq, NYSE
-            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
-            frais_reel_total_brut = tob + 15 # frais belfius
-            return frais_reel_total_brut
-
-    if courtier == 2 : # courtier Degiro
-        if frais == 1 or frais == 3 or frais == 4: #Euronext Bruxelles, Euronext Amsterdam, AMEX, Nasdaq, NYSE
-            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
-            spred = prix_total_brut / 100 * 0.03 # Frais d'écart achat/vente (spread)
-            frais_reel = tob + spread + 4.90 # Frais degiro
-            return frais_reel
-        if frais == 2 : #Euronext Paris
-            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
-            spred = prix_total_brut / 100 * 0.03 # Frais d'écart achat/vente (spread)
-            frais_reel = tob + spread + 2 # Frais degiro
-            return frais_reel
-
-def calcule_frais_reel_prix_total_net(frais, courtier, prix_total_brut):
-    if courtier == 1 : # courtier Belfius
-        if frais == 1 : #Euronext Bruxelles
-            tob = prix_total_brut - (prix_total_brut / 100 * 0.35) # Taxe TOB
-            frais_reel = tob + 3 # frais belfius
+            tob = prix_total / 100 * 0.35 # Taxe TOB
+            frais_reel = tob + 3 # frais de courtage belfius
             return frais_reel
         if frais == 2  or frais == 3: #Euronext Paris, Euronext Amsterdam
-            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
-            frais_reel = tob + 6 # frais belfius
+            tob = prix_total / 100 * 0.35 # Taxe TOB
+            frais_reel = tob + 6 # frais de courtage belfius
             return frais_reel
         if frais == 4 : #AMEX, Nasdaq, NYSE
-            tob = prix_total_brut / 100 * 0.35 # Taxe TOB
-            frais_reel = tob + 15 # frais belfius
+            tob = prix_total / 100 * 0.35 # Taxe TOB
+            frais_reel_total = tob + 15 # frais de courtage belfius
             return frais_reel
 
     if courtier == 2 : # courtier Degiro
         if frais == 1 or frais == 3 or frais == 4: #Euronext Bruxelles, Euronext Amsterdam, AMEX, Nasdaq, NYSE
             tob = prix_total_brut / 100 * 0.35 # Taxe TOB
             spred = prix_total_brut / 100 * 0.03 # Frais d'écart achat/vente (spread)
-            frais_reel = tob + spread + 4.90 # Frais degiro
+            frais_reel = tob + spread + 4.90 # Frais de courtage degiro
             return frais_reel
         if frais == 2 : #Euronext Paris
             tob = prix_total_brut / 100 * 0.35 # Taxe TOB
             spred = prix_total_brut / 100 * 0.03 # Frais d'écart achat/vente (spread)
-            frais_reel = tob + spread + 2 # Frais degiro
+            frais_reel = tob + spread + 2 # Frais de courtage degiro
+            return frais_reel
+
+def calcule_frais_reel_prix_totale_avec_frais(frais, courtier, prix_totale):
+    if courtier == 1 : # courtier Belfius
+        if frais == 1 : #Euronext Bruxelles
+            tob = prix_totale - (prix_totale * 0.35 / 100 ) # Taxe TOB
+            frais_reel = tob + 3 # frais de courtage belfius
+            return frais_reel
+        if frais == 2  or frais == 3: #Euronext Paris, Euronext Amsterdam
+            tob = prix_totale * 0.35 / 100  # Taxe TOB
+            print("tob", tob)
+            frais_reel = tob + 6 # frais de courtage belfius
+            return frais_reel
+        if frais == 4 : #AMEX, Nasdaq, NYSE
+            tob = prix_totale - (prix_totale * 0.35 / 100 ) # Taxe TOB
+            frais_reel = tob + 15 # frais de courtage belfius
+            return frais_reel
+
+    if courtier == 2 : # courtier Degiro
+        if frais == 1 or frais == 3 or frais == 4: #Euronext Bruxelles, Euronext Amsterdam, AMEX, Nasdaq, NYSE
+            tob = prix_totale - (prix_totale * 0.35 / 100 ) # Taxe TOB
+            spred = prix_totale - (prix_totale * 0.03 / 100 ) # Frais d'écart achat/vente (spread)
+            frais_reel = tob + spread + 4.90 # Frais de courtage degiro
+            return frais_reel
+        if frais == 2 : #Euronext Paris
+            tob = prix_totale - (prix_totale * 0.35 / 100 ) # Taxe TOB
+            spred = prix_totale - (prix_totale * 0.03 / 100 ) # Frais d'écart achat/vente (spread)
+            frais_reel = tob + spread + 2 # Frais de courtage degiro
             return frais_reel
 
 def date_valide(date):
@@ -330,7 +331,7 @@ def calcule_valeur():
     return render_template("/calcule_valeur.html")
 
 @app.route('/calcule_rendement', methods=['GET', 'POST'])
-def reception_donner_action():
+def reception_donnee_action():
     if request.method == 'POST':
         try:  
             # Essayez de convertir les données en types souhaités
@@ -362,29 +363,30 @@ def reception_donner_action():
     return render_template("calcule_action.html")
 
 @app.route('/calcule_rendement_totale', methods=['GET', 'POST'])
-def reception_donner_totale():
+def reception_donnee_totale():
     if request.method == 'POST':
         try:
             # Récupérer les données du formulaire
-            prix_total = float(request.form['prixTotal'])
+            prix_totale = float(request.form['prixTotale'])
             nbr_action = int(request.form['nombreActions'])
             dividende = float(request.form['dividendes'])
             courtier = int(request.form['courtier'])
             frais = int(request.form['frais'])
 
-            frais_reel = calcule_frais_reel(frais)
+            frais_reel = calcule_frais_reel_prix_totale_avec_frais(frais, courtier, prix_totale)
+            print(frais_reel)
 
-            prix_achat = calcule_prix_achat(prix_total, frais_reel, nbr_action)
+            prix_achat = calcule_prix_achat(prix_totale, frais_reel, nbr_action)
 
-            pru = calcule_pru(prix_total, nbr_action)
+            pru = calcule_pru(prix_totale, nbr_action)
 
             dividende_total = calcule_dividende_total(dividende, nbr_action)
 
-            rendement_brut = calcule_rendement_brut(dividende_total, prix_total)
+            rendement_brut = calcule_rendement_brut(dividende_total, prix_totale)
 
-            taxe = calcule_taxe(frais, courtier, prix_total, dividende_total, rendement_brut)
+            taxe = calcule_taxe(frais, courtier, prix_totale, dividende_total, rendement_brut)
 
-            resultat = print_result(prix_achat, prix_total, pru, dividende_total, rendement_brut, taxe)
+            resultat = print_result(prix_achat, prix_totale, pru, dividende_total, rendement_brut, taxe)
             return resultat
 
         except (ValueError, KeyError):
@@ -393,7 +395,7 @@ def reception_donner_totale():
     return render_template("calcule_action_totale.html") 
 
 @app.route('/calcule_valeur', methods=['GET', 'POST'])
-def reception_donner_valeur():
+def reception_donnee_valeur():
     if request.method == 'POST':
         try:  
             # Essayez de convertir les données en types souhaités
