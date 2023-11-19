@@ -309,10 +309,7 @@ def calcule_augmentation(prix_total, pourcentage_variation):
     prix_total_augmenter = prix_total * (1 + pourcentage_variation / 100)
     return prix_total_augmenter
 
-def change_date_format(date, input_format, output_format, locale_name='fr_FR'):
-    # Set the locale to French
-    locale.setlocale(locale.LC_TIME, locale_name)
-
+def change_date_format(date, input_format, output_format):
     # Parse the input date string using the input format
     date_object = datetime.strptime(date, input_format)
 
